@@ -1,15 +1,14 @@
 import { styled, Typography } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import ErrorContainer from "../../../components/ErrorContainer/index";
-import HotelPlanSection from "../../../components/PaymentSections/HotelPlanSection";
-import PresenceSection from "../../../components/PaymentSections/PresenceSection";
+import PaymentSection from "../../../components/PaymentSections";
 
 import useApi from "../../../hooks/useApi";
 
 export default function Payment() {
   const [presenceTypes, setPresenceTypes] = useState([]);
   const [hotelPlans, setHotelPlans] = useState([]);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso");
   const api = useApi();
 
   function getInfo() {
@@ -37,8 +36,7 @@ export default function Payment() {
           : 
           <>
             <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
-            <PresenceSection types = {presenceTypes}/>
-            {/* <HotelPlanSection types = {hotelPlans}/> */}
+            <PaymentSection types = {presenceTypes}/>
           </>
       }
     </>
