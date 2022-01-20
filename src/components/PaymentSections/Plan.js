@@ -21,11 +21,11 @@ const PlanContainer = styled.div`
     align-items: center;
     justify-content: center;
     width: min(145px, 20vw);
-    height: min(145px, 20vh);
+    height: min(145px, 20vw);
     margin-right: 24px;
     background: ${props => props.chosen ? "#FFEED2": "#fff"};
-    border: 1px solid #CECECE;
-    transition: all .3s;
+    border: ${props => props.chosen ? "none": "1px solid #CECECE"};
+    transition: background-color .3s;
     border-radius: 20px;
 
     :hover {

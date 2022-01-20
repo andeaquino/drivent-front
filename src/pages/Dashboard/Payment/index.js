@@ -1,16 +1,17 @@
-import { styled, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { useEffect, useState } from "react";
+import styled from "styled-components";
 import ErrorContainer from "../../../components/ErrorContainer/index";
 import PaymentSection from "../../../components/PaymentSections/index.js";
-
+import Button from "../../../components/Form/Button";
 import useApi from "../../../hooks/useApi";
 
 export default function Payment() {
-  const [presenceTypes, setPresenceTypes] = useState([]);
-  const [chosenPresence, setChosenPresence ] = useState({});
-  const [chosenHotelPlan, setChosenHotelPlan ] = useState({});
-  const [hotelPlans, setHotelPlans] = useState([]);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [ presenceTypes, setPresenceTypes] = useState([]);
+  const [ chosenPresence, setChosenPresence ] = useState({});
+  const [ chosenHotelPlan, setChosenHotelPlan ] = useState({});
+  const [ hotelPlans, setHotelPlans] = useState([]);
+  const [ errorMessage, setErrorMessage] = useState("");
   const api = useApi();
 
   function getInfo() {
@@ -29,6 +30,12 @@ export default function Payment() {
   useEffect(() => {
     getInfo();
   }, []);
+
+  useEffect(() => {
+    if(chosenPresence === presenceTypes[1]) {
+      setChosenHotelPlan(hotelPlans[0]);
+    }
+  }, [chosenPresence]);
 
   return (
     <>
@@ -53,6 +60,17 @@ export default function Payment() {
                   setChosen = {setChosenHotelPlan}
                 /> : ""
             }
+            {
+              ((chosenPresence.id && chosenHotelPlan.id) || (chosenPresence === presenceTypes[1])) ? 
+                <>
+                  <SummaryMessage>
+                    Fechado! O total ficou em <span> R$ {(chosenPresence.price + chosenHotelPlan.price) || 0}</span>. Agora é só confirmar:
+                  </SummaryMessage>
+                  <Button>
+                    Reservar Ingresso
+                  </Button>
+                </> : ""
+            }
           </>
       }
     </>
@@ -61,4 +79,16 @@ export default function Payment() {
 
 const StyledTypography = styled(Typography)`
   margin-bottom: 20px!important;
+`;
+
+const SummaryMessage = styled.p`
+    font-family: Roboto;
+    margin: 44px 0px 17px 0px;
+    font-size: 20px;
+    font-weight: 400;
+    color: #8E8E8E;
+
+    span {
+        font-weight: bold;
+    }
 `;
