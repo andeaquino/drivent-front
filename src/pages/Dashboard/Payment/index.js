@@ -1,4 +1,9 @@
+import { styled, Typography } from "@material-ui/core";
 import { useEffect, useState } from "react";
+import ErrorContainer from "../../../components/ErrorContainer/index";
+import HotelPlanSection from "../../../components/PaymentSections/HotelPlanSection";
+import PresenceSection from "../../../components/PaymentSections/PresenceSection";
+
 import useApi from "../../../hooks/useApi";
 
 export default function Payment() {
@@ -13,7 +18,7 @@ export default function Payment() {
       setPresenceTypes(response.data.presenceTypes);
     }).catch(error => {
       if (error.response) {
-        setErrorMessage(error.response.data.message);
+        setErrorMessage("Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso");
       } else {
         setErrorMessage("Não foi possível conectar ao servidor!");
       }
@@ -24,5 +29,22 @@ export default function Payment() {
     getInfo();
   }, []);
 
-  return "Pagamento: Em breve!";
+  return (
+    <>
+      {
+        errorMessage ? 
+          <ErrorContainer pageTitle = "Ingresso e pagamento" errorMessage = {errorMessage}/> 
+          : 
+          <>
+            <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
+            <PresenceSection types = {presenceTypes}/>
+            {/* <HotelPlanSection types = {hotelPlans}/> */}
+          </>
+      }
+    </>
+  );
 }
+
+const StyledTypography = styled(Typography)`
+  margin-bottom: 20px!important;
+`;
