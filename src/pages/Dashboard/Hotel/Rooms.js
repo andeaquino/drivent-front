@@ -1,45 +1,21 @@
 import styled from "styled-components";
 import ItemRoom from "./ItemRoom";
+import { useState } from "react";
 
-export default function Rooms() {
-  const item = [
-    {
-      name: "123",
-      totalVacancies: 3,
-      availableVacancies: 1,
-    },
-    {
-      name: "124",
-      totalVacancies: 2,
-      availableVacancies: 1,
-    },
-    {
-      name: "125",
-      totalVacancies: 1,
-      availableVacancies: 0,
-    },
-    {
-      name: "126",
-      totalVacancies: 3,
-      availableVacancies: 3,
-    },
-    {
-      name: "127",
-      totalVacancies: 3,
-      availableVacancies: 2,
-    },
-    {
-      name: "128",
-      totalVacancies: 3,
-      availableVacancies: 2,
-    },
-  ];
+export default function Rooms({ rooms }) {
+  const [selectedRoom, setSelectedRoom] = useState();
+
   return (
     <ContainerRooms>
       <Title>Ótima pedida! Agora escolha seu quarto:</Title>
       <RoomOptions>
-        {item.map((room) => (
-          <ItemRoom room={room} key={room.name} />
+        {rooms.map((room) => (
+          <ItemRoom
+            room={room}
+            key={room.name}
+            selectedRoom={selectedRoom}
+            setSelectedRoom={setSelectedRoom}
+          />
         ))}
       </RoomOptions>
     </ContainerRooms>
@@ -56,8 +32,9 @@ const Title = styled.div`
 `;
 
 const RoomOptions = styled.div`
-  display: flex;
-  white-space: pre-wrap;
   margin-right: 17px;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
   margin-bottom: 8px;
+  padding: 20px;
 `;
