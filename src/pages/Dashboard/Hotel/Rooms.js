@@ -18,6 +18,7 @@ export default function Rooms({ rooms }) {
           />
         ))}
       </RoomOptions>
+      <Button>RESERVAR QUARTO</Button>
     </ContainerRooms>
   );
 }
@@ -37,4 +38,17 @@ const RoomOptions = styled.div`
   grid-template-columns: 25% 25% 25% 25%;
   margin-bottom: 8px;
   padding: 20px;
+`;
+
+const Button = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e0e0e0;
+  font-size: 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  width: 182px;
+  height: 37px;
+  border-radius: 4px;
+  font-weight: 400 !important;
 `;
