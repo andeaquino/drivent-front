@@ -44,12 +44,15 @@ export default function Payment() {
               chosen = {chosenPresence}
               setChosen = {setChosenPresence}
             />
-            <PaymentSection 
-              types = {hotelPlans} 
-              message={"Ótimo! Agora escolha sua modalidade de hospedagem"}
-              chosen = {chosenHotelPlan}
-              setChosen = {setChosenHotelPlan}
-            />
+            {
+              chosenPresence.name === "Presencial" ? 
+                <PaymentSection 
+                  types = {hotelPlans} 
+                  message={"Ótimo! Agora escolha sua modalidade de hospedagem"}
+                  chosen = {chosenHotelPlan}
+                  setChosen = {setChosenHotelPlan}
+                /> : ""
+            }
           </>
       }
     </>

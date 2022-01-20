@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-export default function Plan({ type }) {
+export default function Plan({ type, chosen, setChosen }) {
   return (
-    <PlanContainer key={type.id}>
+    <PlanContainer key={type.id} onClick={() => setChosen(type)} chosen = {chosen.id === type.id}>
       <PlanName> 
         {type.name}
       </PlanName>
@@ -23,9 +23,14 @@ const PlanContainer = styled.div`
     width: min(145px, 20vw);
     height: min(145px, 20vh);
     margin-right: 24px;
-    background: #fff;
+    background: ${props => props.chosen ? "#FFEED2": "#fff"};
     border: 1px solid #CECECE;
+    transition: all .3s;
     border-radius: 20px;
+
+    :hover {
+        background: ${props => props.chosen ? "#FFEED2": "rgba(0, 0, 0, 0.05)"};
+    }
 `;
 
 const PlanName = styled.p`
