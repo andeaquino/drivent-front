@@ -2,15 +2,17 @@ import React, { useEffect, useState } from "react";
 import HandleError from "./HandleError";
 import styled from "styled-components";
 import useApi from "../../hooks/useApi";
+import HotelList from "./HotelList";
 
 export default function HotelInfo() {
   const [errorCode, setErrorCode] = useState(null);
+  const [hotelInfo, setHotelInfo] = useState([]);
   const { booking } = useApi();
   useEffect(() => {
     booking
       .getBooking()
       .then((res) => {
-        console.log(res.data);
+        setHotelInfo(res.data);
       })
       .catch((e) => {
         setErrorCode(e.response.status);
@@ -19,7 +21,7 @@ export default function HotelInfo() {
   return (
     <>
       <PageTitle>Escolha de hotel e quarto</PageTitle>
-      {!errorCode ? <div>tudo certo</div> : <HandleError error={errorCode} />}
+      {!errorCode ? <HotelList list={hotelInfo} /> : <HandleError error={errorCode} />}
     </>
   );
 }
