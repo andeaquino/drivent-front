@@ -7,7 +7,7 @@ export default function HandleError(props) {
     <ErrorWrapper>
       {error === 402 ? (
         <ErrorMessage>
-          <p>Vocẽ precisa ter confirmado o pagamento antes</p> de fazer a escolha da hospedagem
+          <p>Você precisa ter confirmado o pagamento antes</p> de fazer a escolha da hospedagem
         </ErrorMessage>
       ) : error === 412 ? (
         <ErrorMessage>
@@ -15,7 +15,7 @@ export default function HandleError(props) {
           atividades
         </ErrorMessage>
       ) : (
-        <div>olá</div>
+        <p>Erro no servidor</p>
       )}
     </ErrorWrapper>
   );
