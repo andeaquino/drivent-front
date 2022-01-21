@@ -8,7 +8,7 @@ import Button from "../../../components/Form/Button";
 import { toast } from "react-toastify";
 import useApi from "../../../hooks/useApi";
 
-export default function PaymentInfo({ ticket }) {
+export default function PaymentInfo({ ticket, getTicket }) {
   const [number, setNumber] = useState("");
   const [name, setName] = useState("");
   const [cvc, setCvc] = useState("");
@@ -49,6 +49,7 @@ export default function PaymentInfo({ ticket }) {
       .buyTicket(body)
       .then(() => {
         toast("Ingresso comprado com sucesso!");
+        getTicket();
       })
       .catch((error) => {
         if (error.response) {

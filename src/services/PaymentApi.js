@@ -17,4 +17,12 @@ export default class PaymentApi extends AuthenticatedApi {
       },
     });
   }
+
+  getUserTicket() {
+    return api.get("/payment/ticket", {
+      headers: {
+        ...this.getAuthorizationHeader(),
+      },
+    });
+  }
 };
