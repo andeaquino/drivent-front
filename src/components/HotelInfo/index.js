@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
-import HandleError from "./HandleError";
-import styled from "styled-components";
+import { useEffect, useState } from "react";
 import useApi from "../../hooks/useApi";
 import HotelList from "./HotelList";
+import ErrorContainer from "../ErrorContainer";
 
 export default function HotelInfo() {
   const [errorCode, setErrorCode] = useState(null);
@@ -15,17 +14,16 @@ export default function HotelInfo() {
         setHotelInfo(res.data);
       })
       .catch((e) => {
-        setErrorCode(e.response.status);
+        setErrorCode(e.response.data);
       });
   }, []);
   return (
     <>
-      <PageTitle>Escolha de hotel e quarto</PageTitle>
-      {!errorCode ? <HotelList list={hotelInfo} /> : <HandleError error={errorCode} />}
+      {!errorCode ? (
+        <HotelList list={hotelInfo} />
+      ) : (
+        <ErrorContainer pageTitle="Escolha de hotel e quarto" errorMessage={errorCode} />
+      )}
     </>
   );
 }
-
-const PageTitle = styled.h1`
-  font-size: 2em;
-`;

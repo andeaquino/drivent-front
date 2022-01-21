@@ -4,6 +4,7 @@ export default function HotelList({ list }) {
   const [active, setActive] = useState(false);
   return (
     <Content>
+      <PageTitle>Escolha de hotel e quarto</PageTitle>
       <SubTitle>Primeiro, escolha seu hotel</SubTitle>
       {list.map((info) => (
         <HotelWrapper selected={active} onClick={() => setActive(!active)} key={info.id}>
@@ -11,11 +12,11 @@ export default function HotelList({ list }) {
           <h3>{info.name}</h3>
           <p>
             Tipo de acomodação:
-            <span>Single</span>
+            <span>{info.availableTypes.map((types) => types + " ")} </span>
           </p>
           <p>
             Vagas disponíveis:
-            <span>12</span>
+            <span>{info.totalVacancy}</span>
           </p>
         </HotelWrapper>
       ))}
@@ -27,10 +28,13 @@ const Content = styled.div`
   width: 100%;
   display: flex;
   gap: 15px;
-  margin-top: 40px;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: flex-start;
+`;
+
+const PageTitle = styled.h1`
+  font-size: 2em;
 `;
 
 const HotelWrapper = styled.div`
