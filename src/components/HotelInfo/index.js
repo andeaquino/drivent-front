@@ -7,7 +7,6 @@ export default function HotelInfo() {
   const [errorCode, setErrorCode] = useState(null);
   const [hotelInfo, setHotelInfo] = useState([]);
   const { booking } = useApi();
-
   useEffect(() => {
     booking
       .getBooking()
@@ -15,14 +14,17 @@ export default function HotelInfo() {
         setHotelInfo(res.data);
       })
       .catch((e) => {
-        setErrorCode(e.response.data);
+        setErrorCode(e.response);
       });
   }, []);
-
   return (
     <>
       {!errorCode ? (
-        <HotelList list={hotelInfo} />
+        hotelInfo?.id === undefined ? (
+          <HotelList list={hotelInfo} />
+        ) : (
+          <span> Em breve mostraremos seu hotel</span>
+        )
       ) : (
         <ErrorContainer
           pageTitle="Escolha de hotel e quarto"

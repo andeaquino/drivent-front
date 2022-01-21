@@ -15,13 +15,13 @@ export default function ItemRoom({ room, selectedRoom, setSelectedRoom }) {
     let useSelected = false;
     for (let i = 0; i < room.vacancies; i++) {
       if (aux > 0) {
-        items.push(<BsPersonFill size={25} />);
+        items.push(<BsPersonFill size={25} key={i + 1} />);
       } else {
-        if (selectedRoom === room.name && !useSelected) {
-          items.push(<BsPersonFill size={25} color="#FF4791" />);
+        if (selectedRoom === room.id && !useSelected) {
+          items.push(<BsPersonFill size={25} color="#FF4791" key={i + 1} />);
           useSelected = true;
         } else {
-          items.push(<BsPerson size={25} />);
+          items.push(<BsPerson size={25} key={i + 1} />);
         }
       }
       aux--;
@@ -31,14 +31,14 @@ export default function ItemRoom({ room, selectedRoom, setSelectedRoom }) {
 
   function selectRoom() {
     if (!isAvailable) return;
-    setSelectedRoom(room.name);
+    setSelectedRoom(room.id);
   }
 
   return (
     <ContainerRoom
       isAvailable={isAvailable}
       onClick={selectRoom}
-      isSelected={selectedRoom === room.name}
+      isSelected={selectedRoom === room.id}
     >
       <span>{room.name}</span>
       <Icons>

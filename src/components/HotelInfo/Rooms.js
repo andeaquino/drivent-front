@@ -1,23 +1,34 @@
 import styled from "styled-components";
 import ItemRoom from "./ItemRoom";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import UserContext from "../../contexts/UserContext";
+import useApi from "../../hooks/useApi";
 
 export default function Rooms({ rooms }) {
   const [selectedRoom, setSelectedRoom] = useState();
+  const { userData } = useContext(UserContext);
+  const { booking } = useApi();
+
+  function sendRoom() {
+    booking.postBooking({ userId: userData.user.id, roomId: selectedRoom });
+  }
+
   return (
     <ContainerRooms>
       <Title>Ótima pedida! Agora escolha seu quarto:</Title>
       <RoomOptions>
         {rooms.map((room) => (
           <ItemRoom
-            room={room}
             key={room.id}
+            room={room}
             selectedRoom={selectedRoom}
             setSelectedRoom={setSelectedRoom}
           />
         ))}
       </RoomOptions>
-      {selectedRoom ? <Button>RESERVAR QUARTO</Button> : null}
+      {selectedRoom ? (
+        <Button onClick={sendRoom}>RESERVAR QUARTO</Button>
+      ) : null}
     </ContainerRooms>
   );
 }
@@ -49,5 +60,8 @@ const Button = styled.div`
   width: 182px;
   height: 37px;
   border-radius: 4px;
-  font-weight: 400 !important;
+  font-weight: 400;
+  &:hover {
+    cursor: pointer;
+  }
 `;

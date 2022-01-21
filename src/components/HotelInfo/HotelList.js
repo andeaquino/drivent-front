@@ -3,9 +3,8 @@ import styled from "styled-components";
 import HotelWrapper from "./HotelWrapper";
 import Rooms from "./Rooms";
 
-export default function HotelList({ list }) {
+export default function Hotelitem({ list }) {
   const [active, setActive] = useState(false);
-
   useEffect(() => {}, [active]);
 
   function renderRooms(info) {
@@ -15,7 +14,7 @@ export default function HotelList({ list }) {
     <Content>
       <PageTitle>Escolha de hotel e quarto</PageTitle>
       <SubTitle>Primeiro, escolha seu hotel</SubTitle>
-      {list.map((info) => (
+      {list?.map((info) => (
         <HotelWrapper
           info={info}
           active={active}
