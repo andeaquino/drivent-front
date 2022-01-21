@@ -1,25 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
-export default function HotelList({ list }) {
+import HotelWrapper from "./HotelWrapper";
+import Rooms from "./Rooms";
+
+export default function Hotelitem({ list }) {
   const [active, setActive] = useState(false);
+  useEffect(() => {}, [active]);
+
+  function renderRooms(info) {
+    setActive(info);
+  }
   return (
     <Content>
       <PageTitle>Escolha de hotel e quarto</PageTitle>
       <SubTitle>Primeiro, escolha seu hotel</SubTitle>
-      {list.map((info) => (
-        <HotelWrapper selected={active} onClick={() => setActive(!active)} key={info.id}>
-          <img src={info.img} alt="" />
-          <h3>{info.name}</h3>
-          <p>
-            Tipo de acomodação:
-            <span>{info.availableTypes.map((types) => types + " ")} </span>
-          </p>
-          <p>
-            Vagas disponíveis:
-            <span>{info.totalVacancy}</span>
-          </p>
-        </HotelWrapper>
+      {list?.map((info) => (
+        <HotelWrapper
+          info={info}
+          active={active}
+          renderRooms={renderRooms}
+          key={info.id}
+        />
       ))}
+      {active ? <Rooms rooms={active.rooms} /> : null}
     </Content>
   );
 }
@@ -35,42 +38,6 @@ const Content = styled.div`
 
 const PageTitle = styled.h1`
   font-size: 2em;
-`;
-
-const HotelWrapper = styled.div`
-  width: 200px;
-  height: 270px;
-  display: flex;
-  flex-direction: column;
-  background-color: ${(props) => (props.selected ? "#FFEED2" : "#e5e5e5")};
-  border-radius: 8px;
-  padding: 15px;
-  margin-top: 0px;
-  gap: 15px;
-  cursor: pointer;
-
-  img {
-    width: 170px;
-    height: 110px;
-    border-radius: 8px;
-  }
-
-  h3 {
-    font-size: 20px;
-    color: #343434;
-  }
-
-  p {
-    font-size: 12px;
-    font-weight: 700;
-    color: #3c3c3c;
-  }
-
-  span {
-    display: block;
-    margin-top: 5px;
-    font-weight: 200;
-  }
 `;
 
 const SubTitle = styled.h2`

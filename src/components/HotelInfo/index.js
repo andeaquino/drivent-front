@@ -14,15 +14,22 @@ export default function HotelInfo() {
         setHotelInfo(res.data);
       })
       .catch((e) => {
-        setErrorCode(e.response.data);
+        setErrorCode(e.response);
       });
   }, []);
   return (
     <>
       {!errorCode ? (
-        <HotelList list={hotelInfo} />
+        hotelInfo?.id === undefined ? (
+          <HotelList list={hotelInfo} />
+        ) : (
+          <span> Em breve mostraremos seu hotel</span>
+        )
       ) : (
-        <ErrorContainer pageTitle="Escolha de hotel e quarto" errorMessage={errorCode} />
+        <ErrorContainer
+          pageTitle="Escolha de hotel e quarto"
+          errorMessage={errorCode}
+        />
       )}
     </>
   );

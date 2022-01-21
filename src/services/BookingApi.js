@@ -9,4 +9,16 @@ export default class BookingApi extends AuthenticatedApi {
       },
     });
   }
+
+  postBooking({ userId, roomId }) {
+    return api.post(
+      "/booking",
+      { userId, roomId },
+      {
+        headers: {
+          ...this.getAuthorizationHeader(),
+        },
+      }
+    );
+  }
 }

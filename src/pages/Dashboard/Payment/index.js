@@ -6,8 +6,8 @@ import useApi from "../../../hooks/useApi";
 import { toast } from "react-toastify";
 
 export default function Payment() {
-  const [ chosenPresence, setChosenPresence ] = useState({});
-  const [ chosenHotelPlan, setChosenHotelPlan ] = useState({});
+  const [chosenPresence, setChosenPresence] = useState({});
+  const [chosenHotelPlan, setChosenHotelPlan] = useState({});
   const [isTicketSelected, setIsTicketSelected] = useState(false);
   const [ticket, setTicket] = useState({});
   const api = useApi();
@@ -33,7 +33,7 @@ export default function Payment() {
   useEffect(() => {
     getTicket();
   }, []);
-    
+
   return ticket.presence ? (
     <PaymentConfirmed ticket={ticket} />
   ) : isTicketSelected ? (
@@ -50,4 +50,4 @@ export default function Payment() {
       setIsTicketSelected={setIsTicketSelected}
     />
   );
-};
+}
