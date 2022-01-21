@@ -6,12 +6,14 @@ import Cards from "react-credit-cards";
 import "react-credit-cards/es/styles-compiled.css";
 import Button from "../../../components/Form/Button";
 import { toast } from "react-toastify";
+import useApi from "../../../hooks/useApi";
 
 export default function PaymentInfo({ ticket }) {
   const [number, setNumber] = useState("");
   const [name, setName] = useState("");
   const [cvc, setCvc] = useState("");
   const [expiry, setExpiry] = useState("");
+  const api = useApi();
 
   function makePayement(e) {
     e.preventDefault();
@@ -19,7 +21,7 @@ export default function PaymentInfo({ ticket }) {
       "^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35d{3})d{11})$";
 
     if (!number.match(pattern)) {
-      toast("Insira um número de cartão válido");
+      toast("Insira um número de cartão válido E.g.: 49..., 51..., 36..., 37...");
       return;
     }
 
@@ -37,6 +39,26 @@ export default function PaymentInfo({ ticket }) {
       toast("Insira um cvc válido");
       return;
     }
+
+    const body = {
+      hotelPlan: ticket.hotel.id,
+      presenceType: ticket.presence.id
+    };
+
+    api.payment
+      .buyTicket(body)
+      .then(() => {
+        toast("Ingresso comprado com sucesso!");
+      })
+      .catch((error) => {
+        if (error.response) {
+          toast(error.response.data.message);
+        } else {
+          toast("Não foi possível conectar ao servidor!");
+        }
+        /* eslint-disable-next-line no-console */
+        console.log(error);
+      });
   }
 
   return (
