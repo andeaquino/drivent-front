@@ -6,23 +6,32 @@ import PaymentSection from "../../../components/PaymentSections/index.js";
 import Button from "../../../components/Form/Button";
 import useApi from "../../../hooks/useApi";
 
-export default function PlanSelection({ chosenHotelPlan, chosenPresence, setChosenHotelPlan, setChosenPresence }) {
-  const [ presenceTypes, setPresenceTypes] = useState([]);
-  const [ hotelPlans, setHotelPlans] = useState([]);
-  const [ errorMessage, setErrorMessage] = useState("");
+export default function PlanSelection({
+  chosenHotelPlan,
+  chosenPresence,
+  setChosenHotelPlan,
+  setChosenPresence,
+  setIsTicketSelected,
+}) {
+  const [presenceTypes, setPresenceTypes] = useState([]);
+  const [hotelPlans, setHotelPlans] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
   const api = useApi();
 
   function getInfo() {
-    api.payment.getPlansInfo().then(response => {
-      setHotelPlans(response.data.hotelPlans);
-      setPresenceTypes(response.data.presenceTypes);
-    }).catch(error => {
-      if (error.response) {
-        setErrorMessage(error.response.data.message);
-      } else {
-        setErrorMessage("Não foi possível conectar ao servidor!");
-      }
-    });
+    api.payment
+      .getPlansInfo()
+      .then((response) => {
+        setHotelPlans(response.data.hotelPlans);
+        setPresenceTypes(response.data.presenceTypes);
+      })
+      .catch((error) => {
+        if (error.response) {
+          setErrorMessage(error.response.data.message);
+        } else {
+          setErrorMessage("Não foi possível conectar ao servidor!");
+        }
+      });
   }
 
   useEffect(() => {
@@ -30,47 +39,57 @@ export default function PlanSelection({ chosenHotelPlan, chosenPresence, setChos
   }, []);
 
   useEffect(() => {
-    if(chosenPresence === presenceTypes[1]) {
+    if (chosenPresence === presenceTypes[1]) {
       setChosenHotelPlan(hotelPlans[0]);
     }
   }, [chosenPresence]);
 
   return (
     <>
-      {
-        errorMessage ? 
-          <ErrorContainer pageTitle = "Ingresso e pagamento" errorMessage = {errorMessage}/> 
-          : 
-          <>
-            <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
-            <PaymentSection 
-              types = {presenceTypes} 
-              message={"Primeiro, escolha sua modalidade de ingresso"}
-              chosen = {chosenPresence}
-              setChosen = {setChosenPresence}
+      {errorMessage ? (
+        <ErrorContainer
+          pageTitle="Ingresso e pagamento"
+          errorMessage={errorMessage}
+        />
+      ) : (
+        <>
+          <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
+          <PaymentSection
+            types={presenceTypes}
+            message={"Primeiro, escolha sua modalidade de ingresso"}
+            chosen={chosenPresence}
+            setChosen={setChosenPresence}
+          />
+          {chosenPresence.name === "Presencial" ? (
+            <PaymentSection
+              types={hotelPlans}
+              message={"Ótimo! Agora escolha sua modalidade de hospedagem"}
+              chosen={chosenHotelPlan}
+              setChosen={setChosenHotelPlan}
             />
-            {
-              chosenPresence.name === "Presencial" ? 
-                <PaymentSection 
-                  types = {hotelPlans} 
-                  message={"Ótimo! Agora escolha sua modalidade de hospedagem"}
-                  chosen = {chosenHotelPlan}
-                  setChosen = {setChosenHotelPlan}
-                /> : ""
-            }
-            {
-              ((chosenPresence.id && chosenHotelPlan.id) || (chosenPresence === presenceTypes[1])) ? 
-                <>
-                  <SummaryMessage>
-                    Fechado! O total ficou em <span> R$ {(chosenPresence.price + chosenHotelPlan.price) || 0}</span>. Agora é só confirmar:
-                  </SummaryMessage>
-                  <Button>
-                    Reservar Ingresso
-                  </Button>
-                </> : ""
-            }
-          </>
-      }
+          ) : (
+            ""
+          )}
+          {(chosenPresence.id && chosenHotelPlan.id) ||
+          chosenPresence === presenceTypes[1] ? (
+              <>
+                <SummaryMessage>
+                Fechado! O total ficou em{" "}
+                  <span>
+                    {" "}
+                  R$ {chosenPresence.price + chosenHotelPlan.price || 0}
+                  </span>
+                . Agora é só confirmar:
+                </SummaryMessage>
+                <Button onClick={() => setIsTicketSelected(true)}>
+                Reservar Ingresso
+                </Button>
+              </>
+            ) : (
+              ""
+            )}
+        </>
+      )}
     </>
   );
 }
