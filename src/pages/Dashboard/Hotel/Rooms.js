@@ -18,7 +18,7 @@ export default function Rooms({ rooms }) {
           />
         ))}
       </RoomOptions>
-      <Button>RESERVAR QUARTO</Button>
+      {selectedRoom ? <Button>RESERVAR QUARTO</Button> : null}
     </ContainerRooms>
   );
 }
