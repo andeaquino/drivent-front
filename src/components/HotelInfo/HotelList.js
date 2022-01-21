@@ -10,7 +10,6 @@ export default function HotelList({ list }) {
 
   function renderRooms(info) {
     setActive(info);
-    console.log(info);
   }
   return (
     <Content>
