@@ -4,7 +4,6 @@ import { useState } from "react";
 
 export default function Rooms({ rooms }) {
   const [selectedRoom, setSelectedRoom] = useState();
-
   return (
     <ContainerRooms>
       <Title>Ótima pedida! Agora escolha seu quarto:</Title>
@@ -12,7 +11,7 @@ export default function Rooms({ rooms }) {
         {rooms.map((room) => (
           <ItemRoom
             room={room}
-            key={room.name}
+            key={room.id}
             selectedRoom={selectedRoom}
             setSelectedRoom={setSelectedRoom}
           />

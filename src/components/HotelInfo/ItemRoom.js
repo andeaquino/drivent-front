@@ -6,14 +6,14 @@ export default function ItemRoom({ room, selectedRoom, setSelectedRoom }) {
   const [isAvailable, setIsAvailable] = useState(true);
 
   useEffect(() => {
-    if (room.totalVacancies === room.availableVacancies) setIsAvailable(false);
+    if (room.vacancies === room.occupied) setIsAvailable(false);
   }, []);
 
   function PersonIcons() {
     let items = [];
-    let aux = room.availableVacancies;
+    let aux = room.occupied;
     let useSelected = false;
-    for (let i = 0; i < room.totalVacancies; i++) {
+    for (let i = 0; i < room.vacancies; i++) {
       if (aux > 0) {
         items.push(<BsPersonFill size={25} />);
       } else {
@@ -31,7 +31,6 @@ export default function ItemRoom({ room, selectedRoom, setSelectedRoom }) {
 
   function selectRoom() {
     if (!isAvailable) return;
-
     setSelectedRoom(room.name);
   }
 
