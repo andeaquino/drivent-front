@@ -3,7 +3,7 @@ import styled from "styled-components";
 import HotelWrapper from "./HotelWrapper";
 import Rooms from "./Rooms";
 
-export default function Hotelitem({ list }) {
+export default function Hotelitem({ list, isChangingRoom }) {
   const [active, setActive] = useState(false);
   useEffect(() => {}, [active]);
   function renderRooms(info) {
@@ -11,7 +11,11 @@ export default function Hotelitem({ list }) {
   }
   return (
     <Content>
-      <SubTitle>Primeiro, escolha seu hotel</SubTitle>
+      <SubTitle>
+        {isChangingRoom
+          ? "Escolha seu novo quarto"
+          : "Primeiro, escolha seu hotel"}
+      </SubTitle>
       {list?.map((info) => (
         <HotelWrapper
           info={info}
