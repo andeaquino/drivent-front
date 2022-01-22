@@ -1,16 +1,27 @@
 import styled from "styled-components";
 import ItemRoom from "./ItemRoom";
 import { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
 import useApi from "../../hooks/useApi";
+import { toast } from "react-toastify";
 
 export default function Rooms({ rooms }) {
   const [selectedRoom, setSelectedRoom] = useState();
   const { userData } = useContext(UserContext);
   const { booking } = useApi();
+  const history = useHistory();
 
   function sendRoom() {
-    booking.postBooking({ userId: userData.user.id, roomId: selectedRoom });
+    booking
+      .postBooking({ userId: userData.user.id, roomId: selectedRoom })
+      .then(() => {
+        toast("Salvo com sucesso!");
+        history.push("./activities");
+      })
+      .catch(() => {
+        toast("Erro ao salvar");
+      });
   }
 
   return (
