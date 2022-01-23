@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export default function HotelWrapper({ infos }) {
+export default function HotelWrapper({ infos, changeRoom }) {
   const { hotelImageUrl, hotelName, roomName, roomQuantity, roomType } = infos;
 
   return (
@@ -24,6 +24,7 @@ export default function HotelWrapper({ infos }) {
           </Types>
         </p>
       </WrapperContainer>
+      <Button onClick={changeRoom}>TROCAR DE QUARTO</Button>
     </>
   );
 }
@@ -68,4 +69,20 @@ const Types = styled.span`
   display: block;
   margin-top: 5px;
   font-weight: 200;
+`;
+const Button = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e0e0e0;
+  font-size: 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  width: 182px;
+  height: 37px;
+  border-radius: 4px;
+  font-weight: 400;
+  margin-top: 40px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
