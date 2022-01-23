@@ -18,7 +18,7 @@ export default function HotelInfo() {
         setHotelInfo(res.data);
       })
       .catch((e) => {
-        setErrorCode(e.response);
+        setErrorCode(e.response.data);
       });
   }, []);
 
