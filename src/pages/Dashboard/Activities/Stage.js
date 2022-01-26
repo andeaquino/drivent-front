@@ -4,8 +4,8 @@ import Activity from "./Activity";
 export default function Stage({ stage }) {
   const activities = [
     { id: 1, name: "Minecraft", startTime: "09:00", endTime: "10:00" },
-    { id: 1, name: "Minecraft", startTime: "10:00", endTime: "11:00" },
-    { id: 1, name: "Minecraft", startTime: "13:00", endTime: "15:00" },
+    { id: 2, name: "Minecraft", startTime: "10:00", endTime: "11:00" },
+    { id: 3, name: "Minecraft", startTime: "13:00", endTime: "15:00" },
   ];
   
   return (
@@ -39,4 +39,5 @@ const ActivitiesContainer = styled.div`
     padding: 15px;
     align-items: center;
     border: 1px solid #D7D7D7;
+    overflow-y: scroll;
 `;

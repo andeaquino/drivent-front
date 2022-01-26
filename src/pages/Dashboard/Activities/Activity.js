@@ -1,8 +1,21 @@
+import { useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
 export default function Activity({ activity }) {
+  const [height, setHeight] = useState(0);
+  function calcHeight() {
+    const start = Number(activity.startTime[0] + activity.startTime[1]) * 3600 + Number(activity.startTime[3] + activity.startTime[4]) * 60;
+    const end = Number(activity.endTime[0] + activity.endTime[1]) * 3600 + Number(activity.endTime[3] + activity.endTime[4]) * 60;
+    const height = Math.floor((end - start)/3600 - 1) * 10 + (end - start)/3600 * 80;
+
+    setHeight(height);
+  }
+
+  useEffect(calcHeight, []);
+
   return (
-    <ActivityContainer key={activity.id}>
+    <ActivityContainer key={activity.id} height = {height}>
       <ActivityInfo>
         <p className="bold">
           {activity.name}
@@ -22,9 +35,9 @@ const ActivityContainer = styled.div`
     display: flex;
     align-items: center;
     width: 100%;
-    height: 80px;
+    height: ${props => `${props.height}px`};
     padding: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     background: #F1F1F1;
     border-radius: 5px;
 `;
