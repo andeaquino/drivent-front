@@ -25,7 +25,7 @@ export default function Rooms({ rooms, setIsRoomChanged }) {
   return (
     <ContainerRooms>
       <Title>Ótima pedida! Agora escolha seu quarto:</Title>
-      <RoomOptions>
+      <RoomOptions length={rooms.length}>
         {rooms.map((room) => (
           <ItemRoom
             key={room.id}
@@ -52,11 +52,9 @@ const Title = styled.div`
 `;
 
 const RoomOptions = styled.div`
-  margin-right: 17px;
-  display: grid;
+  display: ${(props) => (props.length >= 4 ? "grid" : "flex")};
   grid-template-columns: 25% 25% 25% 25%;
-  margin-bottom: 8px;
-  padding: 20px;
+  padding: 30px 0;
 `;
 
 const Button = styled.div`
@@ -64,6 +62,7 @@ const Button = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #e0e0e0;
+  margin-top: 10px;
   font-size: 14px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
   width: 182px;
