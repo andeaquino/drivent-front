@@ -1,3 +1,5 @@
+import ActivityDay from "./ActivityDay";
+
 export default function Activities() {
-  return "Atividades: Em breve!";
+  return <ActivityDay />;
 }

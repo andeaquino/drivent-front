@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import Stage from "./Stage";
 
 export default function ActivityDay() {
@@ -7,5 +8,15 @@ export default function ActivityDay() {
     { id: 1, name: "Sala de Workshop" }
   ];
 
-  return stages.map(stage => <Stage stage = {stage}/>);
+  return (
+    <DayActivitiesContainer>
+      {stages.map(stage => <Stage stage = {stage}/>)}
+    </DayActivitiesContainer>
+  );
 }
+
+const DayActivitiesContainer = styled.div`
+    width: 100%;
+    position: relative;
+    display: flex;
+`;
