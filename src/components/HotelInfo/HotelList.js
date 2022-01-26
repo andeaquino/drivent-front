@@ -3,7 +3,7 @@ import styled from "styled-components";
 import HotelWrapper from "./HotelWrapper";
 import Rooms from "./Rooms";
 
-export default function Hotelitem({ list, isChangingRoom }) {
+export default function Hotelitem({ list, isChangingRoom, setIsRoomChanged }) {
   const [active, setActive] = useState(false);
   useEffect(() => {}, [active]);
   function renderRooms(info) {
@@ -24,7 +24,9 @@ export default function Hotelitem({ list, isChangingRoom }) {
           key={info.id}
         />
       ))}
-      {active ? <Rooms rooms={active.rooms} /> : null}
+      {active ? (
+        <Rooms rooms={active.rooms} setIsRoomChanged={setIsRoomChanged} />
+      ) : null}
     </Content>
   );
 }

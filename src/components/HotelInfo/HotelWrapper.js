@@ -18,11 +18,11 @@ export default function HotelWrapper({ info, active, renderRooms }) {
         Tipo de acomodação:
         <Types>
           {info.availableTypes.map((types, index) => (
-            <>
-              <span key={index}>{types}</span>
+            <span key={index}>
+              <span>{types}</span>
 
               <Space position={index + 1} size={info.availableTypes.length} />
-            </>
+            </span>
           ))}
         </Types>
       </p>

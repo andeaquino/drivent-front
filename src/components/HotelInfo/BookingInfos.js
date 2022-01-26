@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export default function HotelWrapper({ infos, changeRoom }) {
+export default function HotelWrapper({ infos, setIsChangingRoom }) {
   const { hotelImageUrl, hotelName, roomName, roomQuantity, roomType } = infos;
 
   return (
@@ -24,7 +24,7 @@ export default function HotelWrapper({ infos, changeRoom }) {
           </Types>
         </p>
       </WrapperContainer>
-      <Button onClick={changeRoom}>TROCAR DE QUARTO</Button>
+      <Button onClick={() => setIsChangingRoom(true)}>TROCAR DE QUARTO</Button>
     </>
   );
 }
