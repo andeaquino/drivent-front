@@ -1,9 +1,13 @@
 import { useEffect } from "react";
 import { useState } from "react";
+import { CgEnter } from "react-icons/cg";
+import { MdHighlightOff } from "react-icons/md";
 import styled from "styled-components";
 
-export default function Activity({ activity }) {
+export default function Activity({ activity, nextActivity }) {
   const [height, setHeight] = useState(0);
+  const [restTime, setRestTime] = useState(0);
+
   function calcHeight() {
     const start = Number(activity.startTime[0] + activity.startTime[1]) * 3600 + Number(activity.startTime[3] + activity.startTime[4]) * 60;
     const end = Number(activity.endTime[0] + activity.endTime[1]) * 3600 + Number(activity.endTime[3] + activity.endTime[4]) * 60;
@@ -12,10 +16,26 @@ export default function Activity({ activity }) {
     setHeight(height);
   }
 
-  useEffect(calcHeight, []);
+  function calcRestTime() {
+    if(!nextActivity.startTime) {
+      setRestTime(10);
+      return;
+    }
+
+    const start = Number(activity.endTime[0] + activity.endTime[1]) * 3600 + Number(activity.endTime[3] + activity.endTime[4]) * 60;
+    const end = Number(nextActivity.startTime[0] + nextActivity.startTime[1]) * 3600 + Number(nextActivity.startTime[3] + nextActivity.startTime[4]) * 60;
+    const restSpace = Math.floor((end - start)/3600) * 10 + (end - start)/3600 * 80;
+
+    setRestTime(restSpace + 10);
+  }
+
+  useEffect(() => {
+    calcHeight();
+    calcRestTime();
+  }, []);
 
   return (
-    <ActivityContainer key={activity.id} height = {height}>
+    <ActivityContainer key={activity.id} height = {height} restTime = {restTime} vaccancies = {activity.vaccancies}>
       <ActivityInfo>
         <p className="bold">
           {activity.name}
@@ -24,22 +44,37 @@ export default function Activity({ activity }) {
           {activity.startTime} - {activity.endTime}
         </p>
       </ActivityInfo>
-      <VaccanciesInfo>
-        {activity.id}
-      </VaccanciesInfo>
+      {
+        activity.vaccancies > 0 ? 
+          <VaccanciesInfo>
+            <CgEnter color = {"#078632"}/>
+            <p>{activity.vaccancies} vagas</p>
+          </VaccanciesInfo> :
+          <VaccanciesInfo>
+            <MdHighlightOff color = {"#CC6666"}/>
+            <p className="red">Esgotado</p>
+          </VaccanciesInfo>
+      }
+      
     </ActivityContainer>
   );
 }
 
 const ActivityContainer = styled.div`
+    cursor: pointer;
     display: flex;
     align-items: center;
     width: 100%;
     height: ${props => `${props.height}px`};
     padding: 10px;
-    margin-bottom: 10px;
+    margin-bottom: ${props => `${props.restTime}px`};
     background: #F1F1F1;
     border-radius: 5px;
+    transition: all .2s;
+
+    :hover {
+        background: ${props => props.vaccancies ? "#D0FFDB" : "#FFD0DB"};
+    }
 `;
 
 const ActivityInfo = styled.h2`
@@ -66,6 +101,20 @@ const VaccanciesInfo = styled.div`
     align-items: center;
     justify-content: center;
     width: 20%;
-    height: 70%;
+    height: 90%;
     border-left: 1px solid #D7D7D7;
+
+    svg {
+        height: 30px;
+        width: 20px;
+    }
+
+    .red {
+        color: #CC6666;
+    }
+
+    p {
+        font-size: 9px;
+        color: #078632;
+    }
 `;
