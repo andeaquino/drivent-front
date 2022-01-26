@@ -1,6 +1,11 @@
 import styled from "styled-components";
 
 export default function HotelWrapper({ info, active, renderRooms }) {
+  function Space({ position, size }) {
+    if (position < size - 1) return <span>, </span>;
+    else if (position === size) return <span></span>;
+    else return <span> e </span>;
+  }
   return (
     <WrapperContainer
       onClick={() => renderRooms(info)}
@@ -13,8 +18,12 @@ export default function HotelWrapper({ info, active, renderRooms }) {
         Tipo de acomodação:
         <Types>
           {info.availableTypes.map((types, index) => (
-            <span key={index}>{types}</span>
-          ))}{" "}
+            <>
+              <span key={index}>{types}</span>
+
+              <Space position={index + 1} size={info.availableTypes.length} />
+            </>
+          ))}
         </Types>
       </p>
       <p>
