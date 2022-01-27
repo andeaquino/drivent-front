@@ -14,7 +14,7 @@ export default function Activities() {
         setActivitiesInfo(res.data);
       })
       .catch((e) => {
-        setErrorCode(e.response.data);
+        setErrorCode(e.response.data.message);
       });
   }, []);
   return (

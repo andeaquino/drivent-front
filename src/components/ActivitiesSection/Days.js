@@ -6,10 +6,10 @@ export default function Days({ list }) {
   const [active, setActive] = useState(false);
   useEffect(() => {}, [active]);
 
-  function renderActivities() {
-    setActive(!active);
+  function renderActivities(info) {
+    setActive(info);
   }
-
+  console.log(active);
   return (
     <Content>
       <PageTitle>Escolha de atividades</PageTitle>
