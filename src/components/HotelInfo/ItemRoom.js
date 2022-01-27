@@ -54,6 +54,7 @@ const ContainerRoom = styled.div`
   align-items: center;
   padding: 10px;
   margin-bottom: 8px;
+  margin-right: 17px;
   font-weight: bold;
   font-size: 20px;
   width: 190px;
