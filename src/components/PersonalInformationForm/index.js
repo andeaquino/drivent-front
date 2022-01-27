@@ -38,11 +38,16 @@ export default function PersonalInformationForm() {
     validations: FormValidations,
 
     onSubmit: (data) => {
+      if (getAge(data.birthday) < 18) {
+        toast("Você precisa ter 18 anos ou mais");
+        return;
+      }
+
       if (!isValidCPF(data.cpf)) {
         toast("Insira um cpf válido");
         return;
       }
-
+      
       const newData = {
         name: data.name,
         cpf: data.cpf,
@@ -136,6 +141,12 @@ export default function PersonalInformationForm() {
     if (rest === 10 || rest === 11) rest = 0;
     if (rest !== parseInt(cpfNum.substring(10, 11))) return false;
     return true;
+  }
+
+  function getAge(birthday) {
+    var ageDifMs = Date.now() - dayjs(birthday, "DD-MM-YYYY");
+    var ageDate = new Date(ageDifMs);
+    return Math.floor(ageDate.getUTCFullYear() - 1970);
   }
 
   function isValidCep(cep) {
