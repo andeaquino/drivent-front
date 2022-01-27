@@ -9,7 +9,6 @@ export default function Days({ list }) {
   function renderActivities(info) {
     setActive(info);
   }
-  console.log(active);
   return (
     <Content>
       <PageTitle>Escolha de atividades</PageTitle>
