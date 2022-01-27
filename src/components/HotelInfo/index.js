@@ -9,6 +9,7 @@ export default function HotelInfo() {
   const [errorCode, setErrorCode] = useState(null);
   const [hotelInfo, setHotelInfo] = useState(null);
   const [isChangingRoom, setIsChangingRoom] = useState(false);
+  const [isRoomChanged, setIsRoomChanged] = useState(false);
   const { booking } = useApi();
 
   useEffect(() => {
@@ -20,9 +21,9 @@ export default function HotelInfo() {
       .catch((e) => {
         setErrorCode(e.response.data);
       });
-  }, []);
-
-  useEffect(() => {}, [hotelInfo]);
+    setIsRoomChanged(false);
+    setIsChangingRoom(false);
+  }, [isRoomChanged]);
 
   if (errorCode) {
     return (
@@ -35,10 +36,6 @@ export default function HotelInfo() {
 
   if (!hotelInfo) return <p></p>;
 
-  function changeRoom() {
-    setIsChangingRoom(true);
-  }
-
   return (
     <>
       <PageTitle>Escolha de hotel e quarto</PageTitle>
@@ -47,9 +44,13 @@ export default function HotelInfo() {
         <HotelList
           list={hotelInfo.hotelsInfos}
           isChangingRoom={isChangingRoom}
+          setIsRoomChanged={setIsRoomChanged}
         />
       ) : (
-        <BookingInfos infos={hotelInfo.bookingInfos} changeRoom={changeRoom} />
+        <BookingInfos
+          infos={hotelInfo.bookingInfos}
+          setIsChangingRoom={setIsChangingRoom}
+        />
       )}
     </>
   );

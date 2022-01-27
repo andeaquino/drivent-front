@@ -1,23 +1,21 @@
 import styled from "styled-components";
 import ItemRoom from "./ItemRoom";
 import { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
 import useApi from "../../hooks/useApi";
 import { toast } from "react-toastify";
 
-export default function Rooms({ rooms }) {
+export default function Rooms({ rooms, setIsRoomChanged }) {
   const [selectedRoom, setSelectedRoom] = useState();
   const { userData } = useContext(UserContext);
   const { booking } = useApi();
-  const history = useHistory();
 
   function sendRoom() {
     booking
       .postBooking({ userId: userData.user.id, roomId: selectedRoom })
       .then(() => {
-        toast("Salvo com sucesso!");
-        history.push("./activities");
+        toast("Hotel reservado com sucesso!");
+        setIsRoomChanged(true);
       })
       .catch(() => {
         toast("Erro ao salvar");
@@ -27,7 +25,7 @@ export default function Rooms({ rooms }) {
   return (
     <ContainerRooms>
       <Title>Ótima pedida! Agora escolha seu quarto:</Title>
-      <RoomOptions>
+      <RoomOptions length={rooms.length}>
         {rooms.map((room) => (
           <ItemRoom
             key={room.id}
@@ -54,11 +52,9 @@ const Title = styled.div`
 `;
 
 const RoomOptions = styled.div`
-  margin-right: 17px;
-  display: grid;
+  display: ${(props) => (props.length >= 4 ? "grid" : "flex")};
   grid-template-columns: 25% 25% 25% 25%;
-  margin-bottom: 8px;
-  padding: 20px;
+  padding: 30px 0;
 `;
 
 const Button = styled.div`
@@ -66,6 +62,7 @@ const Button = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #e0e0e0;
+  margin-top: 10px;
   font-size: 14px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
   width: 182px;
