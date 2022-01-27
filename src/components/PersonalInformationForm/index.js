@@ -67,12 +67,10 @@ export default function PersonalInformationForm() {
       enrollment.save(newData).then(() => {
         toast("Salvo com sucesso!");
       }).catch((error) => {
-        if (error.response?.data?.details) {
-          for (const detail of error.response.data.details) {
-            toast(detail);
-          }
+        if (error.response) {
+          toast(error.response.data.message);
         } else {
-          toast("Não foi possível");
+          toast("Não foi possível conectar ao servidor!");
         }
         /* eslint-disable-next-line no-console */
         console.log(error);
