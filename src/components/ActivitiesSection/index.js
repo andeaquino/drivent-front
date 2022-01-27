@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import useApi from "../../hooks/useApi";
 import Days from "./Days";
-import ActivityDay from "../../pages/Dashboard/Activities/ActivityDay";
 import ErrorContainer from "../ErrorContainer";
 
 export default function Activities() {
@@ -21,10 +20,7 @@ export default function Activities() {
   return (
     <>
       {!errorCode ? (
-        <>
-          <Days list={activitiesInfo} />
-          <ActivityDay />
-        </>
+        <Days list={activitiesInfo} />
       ) : (
         <ErrorContainer pageTitle="Escolha de atividades" errorMessage={errorCode} />
       )}

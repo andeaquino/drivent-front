@@ -1,14 +1,7 @@
 import styled from "styled-components";
 import Activity from "./Activity";
 
-export default function Stage({ stage }) {
-  const activities = [
-    { id: 1, name: "Minecraft", startTime: "09:00", endTime: "10:00", vaccancies: 7 },
-    { id: 2, name: "Minecraft", startTime: "10:00", endTime: "11:00", vaccancies: 7 },
-    { id: 3, name: "Minecraft", startTime: "12:00", endTime: "14:00", vaccancies: 7 },
-    { id: 4, name: "Minecraft", startTime: "14:30", endTime: "15:30", vaccancies: 0 },
-  ];
-  
+export default function Stage({ stage, activities }) {  
   return (
     <StageContainer key={stage.id}>
       <StageName>{stage.name}</StageName>

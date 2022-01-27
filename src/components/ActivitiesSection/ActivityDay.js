@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Stage from "./Stage";
 
-export default function ActivityDay() {
+export default function ActivityDay( { activities } ) {
   const stages = [
     { id: 1, name: "Auditório Principal" },
     { id: 2, name: "Auditório Lateral" },
@@ -10,7 +10,7 @@ export default function ActivityDay() {
 
   return (
     <DayActivitiesContainer>
-      {stages.map(stage => <Stage stage = {stage}/>)}
+      {stages.map(stage => <Stage stage = {stage} activities = {activities.filter(activity => activity.stage.id === stage.id)}/>)}
     </DayActivitiesContainer>
   );
 }
@@ -18,5 +18,6 @@ export default function ActivityDay() {
 const DayActivitiesContainer = styled.div`
     width: 100%;
     position: relative;
+    margin-top: 30px;
     display: flex;
 `;

@@ -35,7 +35,7 @@ export default function Activity({ activity, nextActivity }) {
   }, []);
 
   return (
-    <ActivityContainer key={activity.id} height = {height} restTime = {restTime} vaccancies = {activity.vaccancies}>
+    <ActivityContainer key={activity.id} height = {height} restTime = {restTime} vacancies = {activity.openVacancies}>
       <ActivityInfo>
         <p className="bold">
           {activity.name}
@@ -45,10 +45,10 @@ export default function Activity({ activity, nextActivity }) {
         </p>
       </ActivityInfo>
       {
-        activity.vaccancies > 0 ? 
+        activity.openVacancies > 0 ? 
           <VaccanciesInfo>
             <CgEnter color = {"#078632"}/>
-            <p>{activity.vaccancies} vagas</p>
+            <p>{activity.openVacancies} vagas</p>
           </VaccanciesInfo> :
           <VaccanciesInfo>
             <MdHighlightOff color = {"#CC6666"}/>
@@ -74,7 +74,7 @@ const ActivityContainer = styled.div`
     transition: all .2s;
 
     :hover {
-        background: ${props => props.vaccancies ? "#D0FFDB" : "#FFD0DB"};
+        background: ${props => props.vacancies ? "#D0FFDB" : "#FFD0DB"};
     }
 `;
 
