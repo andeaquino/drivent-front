@@ -1,5 +1,5 @@
-import ActivityDay from "./ActivityDay";
+import ActivitiesSection from "../../../components/ActivitiesSection";
 
 export default function Activities() {
-  return <ActivityDay />;
-}
+  return <ActivitiesSection />;
+};

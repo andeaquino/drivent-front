@@ -70,6 +70,7 @@ const ActivityContainer = styled.div`
     margin-bottom: ${props => `${props.restTime}px`};
     background: #F1F1F1;
     border-radius: 5px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
     transition: all .2s;
 
     :hover {
