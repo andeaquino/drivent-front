@@ -22,7 +22,7 @@ export default function Days({ list }) {
           key={info.id}
         />
       ))}
-      {active ? <ActivityDay activities = {active.activities}/> : null}
+      {active ? <ActivityDay activities={active.activities} stages={active.stages} /> : null}
     </Content>
   );
 }
