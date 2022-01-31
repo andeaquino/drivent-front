@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import DaysWrapper from "./DaysWrapper";
+import ActivityDay from "./ActivityDay";
 
 export default function Days({ list }) {
   const [active, setActive] = useState(false);
@@ -21,7 +22,7 @@ export default function Days({ list }) {
           key={info.id}
         />
       ))}
-      {active ? "Renderize o cronograma aqui, Pedro" : null}
+      {active ? <ActivityDay activities={active.activities} stages={active.stages} /> : null}
     </Content>
   );
 }

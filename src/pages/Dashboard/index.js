@@ -17,6 +17,7 @@ import Payment from "./Payment";
 import Hotel from "./Hotel";
 import Activities from "./Activities";
 import Certificate from "./Certificate";
+import LogoutButton from "../../components/Dashboard/LogoutButton";
 
 export default function Dashboard() {
   const { eventInfo } = useContext(EventInfoContext);
@@ -25,7 +26,7 @@ export default function Dashboard() {
   return (
     <DashboardLayout background={eventInfo.backgroundImage}>
       <NavigationBar />
-
+      <LogoutButton />
       <Container>
         <Switch>
           <Route path={`${match.path}/subscription`} exact>
