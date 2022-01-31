@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export default function DaysWrapper({ info, active, renderActivities }) {
   return (
-    <WrapperContainer onClick={() => renderActivities(info)} selected={info.id === active.id}>
+    <WrapperContainer key = {info.id} onClick={() => renderActivities(info)} selected={info.id === active.id}>
       {info.name}
     </WrapperContainer>
   );

@@ -1,13 +1,15 @@
 import styled from "styled-components";
 import Stage from "./Stage";
 
-export default function ActivityDay({ activities, stages }) {
+export default function ActivityDay({ activities, stages, dayId, selectedActivities }) {
   return (
-    <DayActivitiesContainer>
+    <DayActivitiesContainer key = {dayId}>
       {stages.map((stage) => (
         <Stage
           stage={stage}
           activities={activities.filter((activity) => activity.stage.id === stage.id)}
+          dayId = {dayId}
+          selectedActivities={selectedActivities}
         />
       ))}
     </DayActivitiesContainer>
