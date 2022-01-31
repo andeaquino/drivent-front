@@ -1,32 +1,28 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import HotelWrapper from "./HotelWrapper";
-import Rooms from "./Rooms";
+import DaysWrapper from "./DaysWrapper";
+import ActivityDay from "./ActivityDay";
 
-export default function Hotelitem({ list, isChangingRoom, setIsRoomChanged }) {
+export default function Days({ list }) {
   const [active, setActive] = useState(false);
   useEffect(() => {}, [active]);
-  function renderRooms(info) {
+
+  function renderActivities(info) {
     setActive(info);
   }
   return (
     <Content>
-      <SubTitle>
-        {isChangingRoom
-          ? "Escolha seu novo quarto"
-          : "Primeiro, escolha seu hotel"}
-      </SubTitle>
+      <PageTitle>Escolha de atividades</PageTitle>
+      <SubTitle>Primeiro, filtre pelo dia do evento:</SubTitle>
       {list?.map((info) => (
-        <HotelWrapper
+        <DaysWrapper
           info={info}
           active={active}
-          renderRooms={renderRooms}
+          renderActivities={renderActivities}
           key={info.id}
         />
       ))}
-      {active ? (
-        <Rooms rooms={active.rooms} setIsRoomChanged={setIsRoomChanged} />
-      ) : null}
+      {active ? <ActivityDay activities={active.activities} stages={active.stages} /> : null}
     </Content>
   );
 }
@@ -44,4 +40,8 @@ const SubTitle = styled.h2`
   color: #8e8e8e;
   width: 100%;
   margin: 10px 0px;
+`;
+
+const PageTitle = styled.h1`
+  font-size: 2em;
 `;

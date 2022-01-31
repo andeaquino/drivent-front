@@ -38,6 +38,16 @@ export default function PersonalInformationForm() {
     validations: FormValidations,
 
     onSubmit: (data) => {
+      if (getAge(data.birthday) < 18) {
+        toast("Você precisa ter 18 anos ou mais");
+        return;
+      }
+
+      if (!isValidCPF(data.cpf)) {
+        toast("Insira um cpf válido");
+        return;
+      }
+      
       const newData = {
         name: data.name,
         cpf: data.cpf,
@@ -57,12 +67,10 @@ export default function PersonalInformationForm() {
       enrollment.save(newData).then(() => {
         toast("Salvo com sucesso!");
       }).catch((error) => {
-        if (error.response?.data?.details) {
-          for (const detail of error.response.data.details) {
-            toast(detail);
-          }
+        if (error.response) {
+          toast(error.response.data.message);
         } else {
-          toast("Não foi possível");
+          toast("Não foi possível conectar ao servidor!");
         }
         /* eslint-disable-next-line no-console */
         console.log(error);
@@ -107,6 +115,37 @@ export default function PersonalInformationForm() {
       });
     });
   }, []);
+
+  function isValidCPF(cpf) {
+    let sum = 0;
+    let rest;
+    const cpfNum = cpf.replaceAll(".", "").replace("-", "");
+    if (cpfNum.match(/(\d)\1{10}/)) return false;
+
+    for (let i = 1; i <= 9; i++) {
+      sum = sum + parseInt(cpfNum.substring(i - 1, i)) * (11 - i);
+    }
+    rest = (sum * 10) % 11;
+      
+    if (rest === 10 || rest === 11) rest = 0;
+    if (rest !== parseInt(cpfNum.substring(9, 10))) return false;
+
+    sum = 0;
+    for (let i = 1; i <= 10; i++) {
+      sum = sum + parseInt(cpfNum.substring(i - 1, i)) * (12 - i);
+    } 
+    rest = (sum * 10) % 11;
+
+    if (rest === 10 || rest === 11) rest = 0;
+    if (rest !== parseInt(cpfNum.substring(10, 11))) return false;
+    return true;
+  }
+
+  function getAge(birthday) {
+    var ageDifMs = Date.now() - dayjs(birthday, "DD-MM-YYYY");
+    var ageDate = new Date(ageDifMs);
+    return Math.floor(ageDate.getUTCFullYear() - 1970);
+  }
 
   function isValidCep(cep) {
     return cep.length === 8;
