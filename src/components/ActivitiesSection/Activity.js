@@ -34,6 +34,10 @@ export default function Activity({ activity, nextActivity, dayId, selectedActivi
   }
 
   function postActivity(id) {
+    if(isSelected) {
+      toast.error("Você já está inscrito nessa atividade");
+      return;
+    } 
     if(!activity.openVacancies) {
       toast.error("Esta atividade não possui nenhuma vaga disponível");
       return;
@@ -57,7 +61,7 @@ export default function Activity({ activity, nextActivity, dayId, selectedActivi
 
   return (
     <ActivityContainer key={activity.id} height = {height} restTime = {restTime} isSelected = {isSelected}
-      vacancies = {activity.openVacancies} onClick={postActivity}
+      vacancies = {activity.openVacancies} onClick={() => postActivity(activity.id)}
     >
       <ActivityInfo>
         <p className="bold">
