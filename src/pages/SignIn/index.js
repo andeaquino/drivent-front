@@ -34,7 +34,7 @@ export default function SignIn() {
       console.error(error);
       
       if (error.response) {
-        toast(error.response.data.message);
+        toast("Email ou senha inválidos");
       } else {
         toast("Não foi possível conectar ao servidor!");
       }

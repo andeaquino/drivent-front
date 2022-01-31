@@ -68,7 +68,11 @@ export default function PersonalInformationForm() {
         toast("Salvo com sucesso!");
       }).catch((error) => {
         if (error.response) {
-          toast(error.response.data.message);
+          if (error.response.data.message === "Campos inválidos") {
+            toast("Telefone inválido");
+          } else {
+            toast(error.response.data.message);
+          }
         } else {
           toast("Não foi possível conectar ao servidor!");
         }
