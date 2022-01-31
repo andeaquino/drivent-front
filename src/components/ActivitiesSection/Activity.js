@@ -1,12 +1,16 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { CgEnter } from "react-icons/cg";
-import { MdHighlightOff } from "react-icons/md";
+import { MdHighlightOff, MdCheckCircleOutline } from "react-icons/md";
+import { toast } from "react-toastify";
 import styled from "styled-components";
+import useApi from "../../hooks/useApi";
 
-export default function Activity({ activity, nextActivity }) {
+export default function Activity({ activity, nextActivity, dayId, selectedActivities }) {
   const [height, setHeight] = useState(0);
   const [restTime, setRestTime] = useState(0);
+  const [isSelected, setIsSelected] = useState(selectedActivities.some(act => act.id === activity.id));
+  const { activities } = useApi();
 
   function calcHeight() {
     const start = Number(activity.startTime[0] + activity.startTime[1]) * 3600 + Number(activity.startTime[3] + activity.startTime[4]) * 60;
@@ -29,13 +33,36 @@ export default function Activity({ activity, nextActivity }) {
     setRestTime(restSpace + 10);
   }
 
+  function postActivity(id) {
+    if(isSelected) {
+      toast.error("Você já está inscrito nessa atividade");
+      return;
+    } 
+    if(!activity.openVacancies) {
+      toast.error("Esta atividade não possui nenhuma vaga disponível");
+      return;
+    }; 
+    const confirmation = window.confirm("Tem certeza que deseja confirmar sua reserva?");
+    if(!confirmation) return;
+    activities.postActivities(id)
+      .then(() => {
+        toast("Sua reserva foi feita com sucesso");
+        setIsSelected(true);
+        selectedActivities.push(activity);
+      }).catch((err) => {
+        toast.error(err.response.data.message);
+      });
+  }
+
   useEffect(() => {
     calcHeight();
     calcRestTime();
-  }, []);
+  }, [dayId]);
 
   return (
-    <ActivityContainer key={activity.id} height = {height} restTime = {restTime} vacancies = {activity.openVacancies}>
+    <ActivityContainer key={activity.id} height = {height} restTime = {restTime} isSelected = {isSelected}
+      vacancies = {activity.openVacancies} onClick={() => postActivity(activity.id)}
+    >
       <ActivityInfo>
         <p className="bold">
           {activity.name}
@@ -44,7 +71,11 @@ export default function Activity({ activity, nextActivity }) {
           {activity.startTime} - {activity.endTime}
         </p>
       </ActivityInfo>
-      {
+      { isSelected ? 
+        <VaccanciesInfo>
+          <MdCheckCircleOutline color = {"#078632"}/>
+          <p>Inscrito</p>
+        </VaccanciesInfo> : 
         activity.openVacancies > 0 ? 
           <VaccanciesInfo>
             <CgEnter color = {"#078632"}/>
@@ -61,14 +92,14 @@ export default function Activity({ activity, nextActivity }) {
 }
 
 const ActivityContainer = styled.div`
-    cursor: pointer;
+    cursor: ${props => props.vacancies ? "pointer" : "not-allowed"};
     display: flex;
     align-items: center;
     width: 100%;
     height: ${props => `${props.height}px`};
     padding: 10px;
     margin-bottom: ${props => `${props.restTime}px`};
-    background: #F1F1F1;
+    background: ${props => props.isSelected ? "#D0FFDB" : "#F1F1F1"};
     border-radius: 5px;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
     transition: all .2s;
