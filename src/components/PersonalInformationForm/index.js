@@ -120,7 +120,7 @@ export default function PersonalInformationForm() {
     let sum = 0;
     let rest;
     const cpfNum = cpf.replaceAll(".", "").replace("-", "");
-    if (cpfNum.match(/(\d)\1{10}/)) return false;
+    if (cpfNum === "00000000000") return false;
 
     for (let i = 1; i <= 9; i++) {
       sum = sum + parseInt(cpfNum.substring(i - 1, i)) * (11 - i);
