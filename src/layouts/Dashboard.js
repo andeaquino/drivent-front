@@ -19,6 +19,7 @@ const StyledContainer = styled(Container)`
   align-items: stretch;
   flex-direction: row;
   padding: 0;
+  position: relative;
   
   & > * {
     text-align: initial;
