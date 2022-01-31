@@ -34,6 +34,10 @@ export default function Activity({ activity, nextActivity, dayId, selectedActivi
   }
 
   function postActivity(id) {
+    if(!activity.openVacancies) {
+      toast.error("Esta atividade não possui nenhuma vaga disponível");
+      return;
+    }; 
     const confirmation = window.confirm("Tem certeza que deseja confirmar sua reserva?");
     if(!confirmation) return;
     activities.postActivities(id)
@@ -53,7 +57,7 @@ export default function Activity({ activity, nextActivity, dayId, selectedActivi
 
   return (
     <ActivityContainer key={activity.id} height = {height} restTime = {restTime} isSelected = {isSelected}
-      vacancies = {activity.openVacancies} onClick={() => postActivity(activity.id)}
+      vacancies = {activity.openVacancies} onClick={postActivity}
     >
       <ActivityInfo>
         <p className="bold">
@@ -84,7 +88,7 @@ export default function Activity({ activity, nextActivity, dayId, selectedActivi
 }
 
 const ActivityContainer = styled.div`
-    cursor: pointer;
+    cursor: ${props => props.vacancies ? "pointer" : "not-allowed"};
     display: flex;
     align-items: center;
     width: 100%;
