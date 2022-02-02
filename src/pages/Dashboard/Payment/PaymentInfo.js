@@ -35,11 +35,18 @@ export default function PaymentInfo({ ticket, getTicket }) {
       return;
     }
 
-    if (!cvc.match("^[0-9]{3,4}$")) {
-      toast("Insira um cvc válido");
-      return;
+    if (number.match("^3[47].*")) {
+      if (!cvc.match("^[0-9]{4}$")) {
+        toast("Insira um cvc válido");
+        return;
+      }
+    } else {
+      if (!cvc.match("^[0-9]{3}$")) {
+        toast("Insira um cvc válido");
+        return;
+      }
     }
-
+    
     const body = {
       hotelPlan: ticket.hotel.id,
       presenceType: ticket.presence.id
