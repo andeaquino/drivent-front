@@ -21,7 +21,9 @@ export default function PaymentInfo({ ticket, getTicket }) {
       "^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35d{3})d{11})$";
 
     if (!number.match(pattern)) {
-      toast("Insira um número de cartão válido E.g.: 49..., 51..., 36..., 37...");
+      toast(
+        "Insira um número de cartão válido E.g.: 49..., 51..., 36..., 37..."
+      );
       return;
     }
 
@@ -29,7 +31,7 @@ export default function PaymentInfo({ ticket, getTicket }) {
       toast("Campo do nome não pode ser vazio");
       return;
     }
-    
+
     if (!expiry.match("^(0[1-9]|1[0-2])/?([0-9]{4}|[0-9]{2})$")) {
       toast("Insira uma data de validade válida");
       return;
@@ -42,7 +44,7 @@ export default function PaymentInfo({ ticket, getTicket }) {
 
     const body = {
       hotelPlan: ticket.hotel.id,
-      presenceType: ticket.presence.id
+      presenceType: ticket.presence.id,
     };
 
     api.payment
