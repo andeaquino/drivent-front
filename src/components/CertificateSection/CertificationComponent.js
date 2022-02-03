@@ -17,7 +17,7 @@ export default function CertificationComponent({ certificateInfo, printRef }) {
       <SignaturesContainer>
         <Signature>
           <h2>{certificateInfo.name}</h2>
-          <p>Student</p>
+          <p>Aluno</p>
         </Signature>
         <Signature>
           <h2>Diogo Silva</h2>
@@ -106,6 +106,7 @@ const Signature = styled.div`
     }
 
     h2 {
+      text-transform: capitalize;
       color: #333;
       font-size: 12px;
     }
