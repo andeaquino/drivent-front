@@ -35,11 +35,18 @@ export default function PaymentInfo({ ticket, getTicket }) {
       return;
     }
 
-    if (!cvc.match("^[0-9]{3,4}$")) {
-      toast("Insira um cvc válido");
-      return;
+    if (number.match("^3[47].*")) {
+      if (!cvc.match("^[0-9]{4}$")) {
+        toast("Insira um cvc válido");
+        return;
+      }
+    } else {
+      if (!cvc.match("^[0-9]{3}$")) {
+        toast("Insira um cvc válido");
+        return;
+      }
     }
-
+    
     const body = {
       hotelPlan: ticket.hotel.id,
       presenceType: ticket.presence.id
@@ -62,6 +69,19 @@ export default function PaymentInfo({ ticket, getTicket }) {
       });
   }
 
+  function applyDateMask(value) {
+    if (value.match("^[0-9]{2}/$")) {
+      const newExp = expiry.slice(0, 2);
+      setExpiry(newExp);
+      return;
+    }
+    if (value.match("^[0-9]{2}$")) {
+      setExpiry(`${value}/`);
+    } else {
+      setExpiry(value);
+    }
+  }
+
   return (
     <Container>
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
@@ -73,6 +93,7 @@ export default function PaymentInfo({ ticket, getTicket }) {
           <input
             placeholder="Card Number"
             onChange={(e) => setNumber(e.target.value)}
+            maxLength="19"
             required
           />
           <input
@@ -82,12 +103,15 @@ export default function PaymentInfo({ ticket, getTicket }) {
           />
           <input
             placeholder="Valid Thru"
-            onChange={(e) => setExpiry(e.target.value)}
+            onChange={(e) => applyDateMask(e.target.value)}
+            value={expiry}
+            maxLength="5"
             required
           />
           <input
             placeholder="CVC"
             onChange={(e) => setCvc(e.target.value)}
+            maxLength="4"
             required
           />
         </form>
