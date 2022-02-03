@@ -3,19 +3,21 @@ import { IoExitOutline } from "react-icons/io5";
 import { useHistory } from "react-router";
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
+import { Modal } from "../../hooks/Modal";
 
 export default function LogoutButton() {
   const history = useHistory();
   const { setUserData } = useContext(UserContext);
 
   function logout() {
-    const confirmation = window.confirm("Tem certeza que deseja sair?");
-    if (confirmation) {
-      localStorage.removeItem("userData");
-      setUserData({});
-      history.push("/sign-in");
-    }
-  };
+    Modal("Tem certeza que deseja sair?").then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem("userData");
+        setUserData({});
+        history.push("/sign-in");
+      }
+    });
+  }
 
   return <Button onClick={logout} />;
 }
@@ -28,6 +30,6 @@ const Button = styled(IoExitOutline)`
   cursor: pointer;
 
   :hover {
-      opacity: 0.7;
+    opacity: 0.7;
   }
 `;

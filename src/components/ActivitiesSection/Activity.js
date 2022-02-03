@@ -4,9 +4,15 @@ import { CgEnter } from "react-icons/cg";
 import { MdHighlightOff, MdCheckCircleOutline } from "react-icons/md";
 import { toast } from "react-toastify";
 import styled from "styled-components";
+import { Modal } from "../../hooks/Modal";
 import useApi from "../../hooks/useApi";
 
-export default function Activity({ activity, nextActivity, dayId, selectedActivities }) {
+export default function Activity({
+  activity,
+  nextActivity,
+  dayId,
+  selectedActivities,
+}) {
   const [height, setHeight] = useState(0);
   const [restTime, setRestTime] = useState(0);
   const [isSelected, setIsSelected] = useState(
@@ -21,7 +27,8 @@ export default function Activity({ activity, nextActivity, dayId, selectedActivi
     const end =
       Number(activity.endTime[0] + activity.endTime[1]) * 3600 +
       Number(activity.endTime[3] + activity.endTime[4]) * 60;
-    const height = Math.floor((end - start) / 3600 - 1) * 10 + ((end - start) / 3600) * 80;
+    const height =
+      Math.floor((end - start) / 3600 - 1) * 10 + ((end - start) / 3600) * 80;
 
     setHeight(height);
   }
@@ -38,46 +45,53 @@ export default function Activity({ activity, nextActivity, dayId, selectedActivi
     const end =
       Number(nextActivity.startTime[0] + nextActivity.startTime[1]) * 3600 +
       Number(nextActivity.startTime[3] + nextActivity.startTime[4]) * 60;
-    const restSpace = Math.floor((end - start) / 3600) * 10 + ((end - start) / 3600) * 80;
+    const restSpace =
+      Math.floor((end - start) / 3600) * 10 + ((end - start) / 3600) * 80;
 
     setRestTime(restSpace + 10);
   }
 
   function postActivity(id) {
     if (isSelected) {
-      const confirmation = window.confirm(
+      Modal(
         "Você já está inscrito nessa atividade, gostaria de cancelar sua inscrição?"
-      );
-      if (!confirmation) return;
-      
-      activities
-        .cancelActivity(id)
-        .then(() => {
-          toast("Sua reserva foi cancelada com sucesso");
-          setIsSelected(false);
-          selectedActivities = selectedActivities.filter((info) => info !== activity);
-        })
-        .catch((err) => {
-          toast.error(err.response.data.message);
-        });
+      ).then((result) => {
+        if (result.isConfirmed) {
+          activities
+            .cancelActivity(id)
+            .then(() => {
+              toast("Sua reserva foi cancelada com sucesso");
+              setIsSelected(false);
+              selectedActivities = selectedActivities.filter(
+                (info) => info !== activity
+              );
+            })
+            .catch((err) => {
+              toast.error(err.response.data.message);
+            });
+        }
+      });
       return;
     }
     if (!activity.openVacancies) {
       toast.error("Esta atividade não possui nenhuma vaga disponível");
       return;
     }
-    const confirmation = window.confirm("Tem certeza que deseja confirmar sua reserva?");
-    if (!confirmation) return;
-    activities
-      .postActivities(id)
-      .then(() => {
-        toast("Sua reserva foi feita com sucesso");
-        setIsSelected(true);
-        selectedActivities.push(activity);
-      })
-      .catch((err) => {
-        toast.error(err.response.data.message);
-      });
+    Modal("Tem certeza que deseja confirmar sua reserva?").then((result) => {
+      if (result.isConfirmed) {
+        activities
+          .postActivities(id)
+          .then(() => {
+            toast("Sua reserva foi feita com sucesso");
+            setIsSelected(true);
+            selectedActivities.push(activity);
+          })
+          .catch((err) => {
+            toast.error(err.response.data.message);
+          });
+      }
+      return;
+    });
   }
 
   useEffect(() => {
