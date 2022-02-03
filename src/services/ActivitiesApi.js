@@ -11,10 +11,26 @@ export default class ActivitiesApi extends AuthenticatedApi {
   }
 
   postActivities(id) {
-    return api.post(`/activities/${id}`, {}, {
-      headers: {
-        ...this.getAuthorizationHeader(),
-      }, 
-    });
+    return api.post(
+      `/activities/${id}`,
+      {},
+      {
+        headers: {
+          ...this.getAuthorizationHeader(),
+        },
+      }
+    );
+  }
+
+  cancelActivity(id) {
+    return api.post(
+      `/activities/cancel/${id}`,
+      {},
+      {
+        headers: {
+          ...this.getAuthorizationHeader(),
+        },
+      }
+    );
   }
 }
