@@ -6,6 +6,7 @@ import EnrollmentApi from "../services/EnrollmentApi";
 import BookingApi from "../services/BookingApi";
 import PaymentApi from "../services/PaymentApi";
 import ActivitiesApi from "../services/ActivitiesApi";
+import CertificateApi from "../services/CertificateApi";
 
 export default function useApi() {
   return {
@@ -17,5 +18,6 @@ export default function useApi() {
     booking: new BookingApi(),
     payment: new PaymentApi(),
     activities: new ActivitiesApi(),
+    certificate: new CertificateApi(),
   };
 }

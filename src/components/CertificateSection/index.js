@@ -4,19 +4,28 @@ import useApi from "../../hooks/useApi";
 import Loading from "../Dashboard/Loading";
 import ErrorContainer from "../ErrorContainer";
 import Button from "../Form/Button";
+import Pdf from "react-to-pdf";
+import CertificationComponent from "./CertificationComponent";
+import { createRef } from "react";
 
 export default function CertificateSection() {
   const [errorCode, setErrorCode] = useState(null);
-  const [activitiesInfo, setActivitiesInfo] = useState([]);
+  const [certificateInfo, setCertificateInfo] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { activities } = useApi();
+  const { certificate } = useApi();
+  const ref = createRef();
+  const options = {
+    orientation: "landscape",
+    unit: "in",
+    format: [6.25, 4.15]
+  };
 
   useEffect(() => {
     setLoading(true);
-    activities
-      .getActivities()
+    certificate
+      .getCertificate()
       .then((res) => {
-        setActivitiesInfo(res.data);
+        setCertificateInfo(res.data);
         setLoading(false);
       })
       .catch((e) => {
@@ -30,10 +39,15 @@ export default function CertificateSection() {
       {loading ? <Loading /> : !errorCode ? (
         <Content>
           <PageTitle>Gere seu Certificado</PageTitle>
+          <CertificationComponent certificateInfo = {certificateInfo} printRef = {ref}/>
           <SubTitle>Clique no botão abaixo para gerar seu certificado em pdf:</SubTitle>
-          <Button onClick = {() => {}}>
-              Gerar Certificado
-          </Button>
+          <Pdf targetRef={ref} filename="Certificate.pdf" options={options}>
+            {({ toPdf }) =>
+              <Button onClick = {toPdf}>
+                  Gerar Certificado
+              </Button>
+            }
+          </Pdf>
         </Content>
       ) : (
         <ErrorContainer pageTitle="Gere seu Certificado" errorMessage={errorCode} />
